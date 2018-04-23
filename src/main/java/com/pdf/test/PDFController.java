@@ -21,72 +21,35 @@ import java.io.IOException;
 @RestController
 public class PDFController {
     private final static int X = 50;
-    private static float Y = 700f;
+    private static float Y;
+    private final static PDFont BOLD = PDType1Font.HELVETICA_BOLD;
+    private final static PDFont PLAIN = PDType1Font.HELVETICA;
+
     @RequestMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDF() {
-
-
         try (PDDocument document = new PDDocument(); ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
             PDPage page = new PDPage();
             document.addPage(page);
-
-            PDFont bold = PDType1Font.HELVETICA_BOLD;
-            PDFont plain = PDType1Font.HELVETICA;
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
+            Y = 700F;
+            
 //          ADD HEADER
-            String text = "Personal Information";
-            String[] header;
-            String s;
-            header = WordUtils.wrap(text, 75).split("\\r?\\n");
-
-            for (int i = 0; i < header.length; i++) {
-                contentStream.beginText();
-                contentStream.setFont(bold, 16);
-                Y -= i * 15;
-                contentStream.newLineAtOffset(X, Y);
-                s = header[i];
-                contentStream.showText(s);
-                contentStream.endText();
-            }
+            addWrappedText("Personal Information", BOLD, contentStream, 16);
 
 //          ADD PERSON
-            Person person = new Person("John", "Doe", 43, true );
+            Person person = new Person("John", "Doe", 43, true);
 
-            contentStream.beginText();
-            Y += -30;
-            contentStream.newLineAtOffset(X, Y);
-            contentStream.setFont(bold, 12);
-            contentStream.showText("Name: ");
-            contentStream.setFont(plain, 12);
-            contentStream.showText(person.getFirstName() + " " + person.getLastName());
-            contentStream.endText();
-
-            contentStream.beginText();
-            Y += -15;
-            contentStream.newLineAtOffset(X, Y);
-            contentStream.setFont(bold, 12);
-            contentStream.showText("Age: ");
-            contentStream.setFont(plain, 12);
-            contentStream.showText(String.valueOf(person.getAge()));
-            contentStream.endText();
-
-            contentStream.beginText();
-            Y += -15;
-            contentStream.newLineAtOffset(X, Y);
-            contentStream.setFont(bold, 12);
-            contentStream.showText("Married: ");
-            contentStream.setFont(plain, 12);
-            contentStream.showText(String.valueOf(person.isMarried()));
-            contentStream.endText();
+            updateY(15);
+            addHeaderAndText("Name: ", person.getFirstName() + " " + person.getLastName(), PLAIN, contentStream, 12 );
+            addHeaderAndText("Age: ", String.valueOf(person.getAge()), PLAIN, contentStream, 12);
+            addHeaderAndText("Married: ", String.valueOf(person.isMarried()), PLAIN, contentStream, 12);
 
 //          ADD IMAGE
-            Y += -15;
-
-            int  height = 150;
-            int  width = 250;
-            PDImageXObject image = PDImageXObject.createFromFile("src/images/signature.png", document);
-            contentStream.drawImage(image, X, Y - height, width, height);
+            updateY(15);
+            int height = 150;
+            int width = 250;
+            PDImageXObject signature = PDImageXObject.createFromFile("src/images/signature.png", document);
+            contentStream.drawImage(signature, X, Y - height, width, height);
 
             contentStream.close();
             HttpHeaders headers = new HttpHeaders();
@@ -106,4 +69,37 @@ public class PDFController {
         }
         return ResponseEntity.ok().build();
     }
+
+    private void updateY(int i) {
+        Y += -i;
+    }
+
+    private void addWrappedText(String text, PDFont font, PDPageContentStream contentStream, int size) throws IOException {
+        String[] wrappedText = WordUtils.wrap(text, 75).split("\\r?\\n");
+        String string;
+        for (int i = 0; i < wrappedText.length; i++) {
+            updateY(15);
+            contentStream.beginText();
+            contentStream.setFont(font, size);
+            contentStream.newLineAtOffset(X, Y);
+            string = wrappedText[i];
+            contentStream.showText(string);
+            contentStream.endText();
+        }
+    }
+
+    private void addHeaderAndText(String strHeader, String text, PDFont font, PDPageContentStream contentStream, int size) throws IOException {
+        updateY(15);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(X, Y);
+        contentStream.setFont(BOLD, 12);
+        contentStream.showText(strHeader);
+
+        contentStream.setFont(PLAIN, 12);
+        contentStream.showText(text);
+        contentStream.endText();
+
+
+    }
+
 }
