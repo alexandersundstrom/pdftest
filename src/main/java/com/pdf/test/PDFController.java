@@ -32,17 +32,18 @@ public class PDFController {
             document.addPage(page);
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
             Y = 700F;
-            
+
 //          ADD HEADER
-            addWrappedText("Personal Information", BOLD, contentStream, 16);
+            addWrappedText("Personal Information",16, BOLD, contentStream);
 
 //          ADD PERSON
             Person person = new Person("John", "Doe", 43, true);
 
             updateY(15);
-            addHeaderAndText("Name: ", person.getFirstName() + " " + person.getLastName(), PLAIN, contentStream, 12 );
-            addHeaderAndText("Age: ", String.valueOf(person.getAge()), PLAIN, contentStream, 12);
-            addHeaderAndText("Married: ", String.valueOf(person.isMarried()), PLAIN, contentStream, 12);
+            addHeaderAndText("Name: ", person.getFirstName() + " " + person.getLastName(), contentStream);
+            addHeaderAndText("Age: ", String.valueOf(person.getAge()), contentStream);
+            addHeaderAndText("Married: ", String.valueOf(person.isMarried()), contentStream);
+//            addHeaderAndText("Extra: ", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!", contentStream);
 
 //          ADD IMAGE
             updateY(15);
@@ -74,7 +75,7 @@ public class PDFController {
         Y += -i;
     }
 
-    private void addWrappedText(String text, PDFont font, PDPageContentStream contentStream, int size) throws IOException {
+    private void addWrappedText(String text, int size, PDFont font, PDPageContentStream contentStream) throws IOException {
         String[] wrappedText = WordUtils.wrap(text, 75).split("\\r?\\n");
         String string;
         for (int i = 0; i < wrappedText.length; i++) {
@@ -88,7 +89,7 @@ public class PDFController {
         }
     }
 
-    private void addHeaderAndText(String strHeader, String text, PDFont font, PDPageContentStream contentStream, int size) throws IOException {
+    private void addHeaderAndText(String strHeader, String text, PDPageContentStream contentStream) throws IOException {
         updateY(15);
         contentStream.beginText();
         contentStream.newLineAtOffset(X, Y);
