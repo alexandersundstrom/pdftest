@@ -74,8 +74,8 @@ public class PDFController {
     private void drawImage(String path, float height, PDDocument document, PDPageContentStream contentStream) throws IOException {
         PDImageXObject signature = PDImageXObject.createFromFile(path, document);
 
-        float ratio =  signature.getHeight() / height;
-        float width =  signature.getWidth() / ratio;
+        float ratio = signature.getHeight() / height;
+        float width = signature.getWidth() / ratio;
 
         contentStream.drawImage(signature, X, Y_HEIGHT - height, width, height);
     }
@@ -84,14 +84,6 @@ public class PDFController {
         Y_HEIGHT += -i;
     }
 
-    /**
-     * Some information
-     * @param text
-     * @param size
-     * @param font
-     * @param contentStream
-     * @throws IOException
-     */
     private void addWrappedText(String text, int size, PDFont font, PDPageContentStream contentStream) throws IOException {
         String[] wrappedText = WordUtils.wrap(text, 125).split("\\r?\\n");
         String string;
