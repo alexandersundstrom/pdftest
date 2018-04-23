@@ -41,7 +41,7 @@ public class PDFController {
             for (int i = 0; i < header.length; i++) {
                 contentStream.beginText();
                 contentStream.setFont(font, 14);
-                contentStream.newLineAtOffset(50,600-i*15);
+                contentStream.newLineAtOffset(50,700-i*15);
                 s = header[i];
                 contentStream.showText(s);
                 contentStream.endText();
