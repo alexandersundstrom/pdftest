@@ -21,7 +21,7 @@ import java.io.IOException;
 @RestController
 public class PDFController {
     private final static int X = 50;
-    private static float Y;
+    private static float Y_HEIGHT;
     private final static PDFont BOLD = PDType1Font.HELVETICA_BOLD;
     private final static PDFont PLAIN = PDType1Font.HELVETICA;
 
@@ -31,26 +31,28 @@ public class PDFController {
             PDPage page = new PDPage();
             document.addPage(page);
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            Y = 700F;
+            Y_HEIGHT = 700F;
 
 //          ADD HEADER
-            addWrappedText("Personal Information",16, BOLD, contentStream);
+            addWrappedTextCentered("Personal Information", 22, BOLD, contentStream, page);
 
 //          ADD PERSON
             Person person = new Person("John", "Doe", 43, true);
 
-            updateY(15);
-            addHeaderAndText("Name: ", person.getFirstName() + " " + person.getLastName(), contentStream);
-            addHeaderAndText("Age: ", String.valueOf(person.getAge()), contentStream);
-            addHeaderAndText("Married: ", String.valueOf(person.isMarried()), contentStream);
-//            addHeaderAndText("Extra: ", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!", contentStream);
+            addY(15);
+            addHeaderAndWrappedText("Name: ", person.getFirstName() + " " + person.getLastName(), contentStream);
+            addHeaderAndWrappedText("Age: ", String.valueOf(person.getAge()), contentStream);
+            addHeaderAndWrappedText("Married: ", String.valueOf(person.isMarried()), contentStream);
+            addHeaderAndWrappedText("Extra: ", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!", contentStream);
 
 //          ADD IMAGE
-            updateY(15);
+            addY(25);
+            addWrappedText("Signature", 14, BOLD, contentStream);
+            addY(15);
             int height = 150;
             int width = 250;
             PDImageXObject signature = PDImageXObject.createFromFile("src/images/signature.png", document);
-            contentStream.drawImage(signature, X, Y - height, width, height);
+            contentStream.drawImage(signature, X, Y_HEIGHT - height, width, height);
 
             contentStream.close();
             HttpHeaders headers = new HttpHeaders();
@@ -71,36 +73,65 @@ public class PDFController {
         return ResponseEntity.ok().build();
     }
 
-    private void updateY(int i) {
-        Y += -i;
+    private void addY(int i) {
+        Y_HEIGHT += -i;
     }
 
+    /**
+     * Some information
+     * @param text
+     * @param size
+     * @param font
+     * @param contentStream
+     * @throws IOException
+     */
     private void addWrappedText(String text, int size, PDFont font, PDPageContentStream contentStream) throws IOException {
-        String[] wrappedText = WordUtils.wrap(text, 75).split("\\r?\\n");
+        String[] wrappedText = WordUtils.wrap(text, 125).split("\\r?\\n");
         String string;
         for (int i = 0; i < wrappedText.length; i++) {
-            updateY(15);
+            addY(15);
             contentStream.beginText();
             contentStream.setFont(font, size);
-            contentStream.newLineAtOffset(X, Y);
+            contentStream.newLineAtOffset(X, Y_HEIGHT);
             string = wrappedText[i];
             contentStream.showText(string);
             contentStream.endText();
         }
     }
 
-    private void addHeaderAndText(String strHeader, String text, PDPageContentStream contentStream) throws IOException {
-        updateY(15);
-        contentStream.beginText();
-        contentStream.newLineAtOffset(X, Y);
-        contentStream.setFont(BOLD, 12);
-        contentStream.showText(strHeader);
-
-        contentStream.setFont(PLAIN, 12);
-        contentStream.showText(text);
-        contentStream.endText();
-
-
+    private void addWrappedTextCentered(String text, int size, PDFont font, PDPageContentStream contentStream, PDPage page) throws IOException {
+        String[] wrappedText = WordUtils.wrap(text, 75).split("\\r?\\n");
+        String string;
+        for (int i = 0; i < wrappedText.length; i++) {
+            addY(15);
+            contentStream.beginText();
+            contentStream.setFont(font, size);
+            string = wrappedText[i];
+            float titleWidth = font.getStringWidth(string) / 1000 * size;
+            contentStream.newLineAtOffset((page.getMediaBox().getWidth() - titleWidth) / 2, Y_HEIGHT);
+            contentStream.showText(string);
+            contentStream.endText();
+        }
     }
 
+    private void addHeaderAndWrappedText(String strHeader, String text, PDPageContentStream contentStream) throws IOException {
+        addY(15);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(X, Y_HEIGHT);
+        contentStream.setFont(BOLD, 12);
+        contentStream.showText(strHeader);
+        contentStream.setFont(PLAIN, 12);
+        String[] wrappedText = WordUtils.wrap(text, 75).split("\\r?\\n");
+        String string;
+        for (int i = 0; i < wrappedText.length; i++) {
+            if (i != 0) {
+                addY(15);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(X, Y_HEIGHT);
+            }
+            string = wrappedText[i];
+            contentStream.showText(string);
+            contentStream.endText();
+        }
+    }
 }
