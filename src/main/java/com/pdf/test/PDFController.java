@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @RestController
@@ -22,7 +22,7 @@ public class PDFController {
     @RequestMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDF() {
         PDPageContentStream contentStream = null;
-        try (PDDocument document = new PDDocument()) {
+        try (PDDocument document = new PDDocument(); ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
             PDPage page = new PDPage();
             document.addPage(page);
 
@@ -36,16 +36,16 @@ public class PDFController {
             contentStream.endText();
             contentStream.close();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
+            headers.add("Content-Disposition", "inline; filename=example.pdf");
 
-            document.save("blank.pdf");
-            File file = new File("blank.pdf");
+            document.save(ous);
+            byte[] bytes = ous.toByteArray();
 
             return ResponseEntity
                     .ok()
                     .headers(headers)
                     .contentType(MediaType.APPLICATION_PDF)
-                    .body(new InputStreamResource(new FileInputStream(file)));
+                    .body(new InputStreamResource(new ByteArrayInputStream(bytes)));
 
         } catch (IOException e) {
             System.out.println("Something went wrong: " + e.getMessage());
