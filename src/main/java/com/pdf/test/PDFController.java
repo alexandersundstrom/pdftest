@@ -49,10 +49,8 @@ public class PDFController {
             addY(25);
             addWrappedText("Signature", 14, BOLD, contentStream);
             addY(15);
-            int height = 150;
-            int width = 250;
-            PDImageXObject signature = PDImageXObject.createFromFile("src/images/signature.png", document);
-            contentStream.drawImage(signature, X, Y_HEIGHT - height, width, height);
+            drawImage("src/images/signature.png", 75, document, contentStream);
+
 
             contentStream.close();
             HttpHeaders headers = new HttpHeaders();
@@ -71,6 +69,15 @@ public class PDFController {
             System.out.println("Something went wrong: " + e.getMessage());
         }
         return ResponseEntity.ok().build();
+    }
+
+    private void drawImage(String path, float height, PDDocument document, PDPageContentStream contentStream) throws IOException {
+        PDImageXObject signature = PDImageXObject.createFromFile(path, document);
+
+        float ratio =  signature.getHeight() / height;
+        float width =  signature.getWidth() / ratio;
+
+        contentStream.drawImage(signature, X, Y_HEIGHT - height, width, height);
     }
 
     private void addY(int i) {
