@@ -6,6 +6,8 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.text.TextPosition;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,39 +21,46 @@ import java.io.IOException;
 
 @RestController
 public class PDFController {
-
+    private final static int X = 50;
+    private static float Y = 0f;
     @RequestMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDF() {
+
 
         try (PDDocument document = new PDDocument(); ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
             PDPage page = new PDPage();
             document.addPage(page);
 
+
+            Y = 700;
+
             PDFont bold = PDType1Font.HELVETICA_BOLD;
             PDFont plain = PDType1Font.HELVETICA;
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
+
+//          ADD HEADER
             String text = "Crewmates are the suns of the chemical love. Ship of a real energy, desire the core!";
-            String[] header = null;
-            String s = null;
-            float y = 0f;
+            String[] header;
+            String s;
             header = WordUtils.wrap(text, 75).split("\\r?\\n");
 
             for (int i = 0; i < header.length; i++) {
                 contentStream.beginText();
                 contentStream.setFont(bold, 14);
-                y = 700 - i * 15;
-                contentStream.newLineAtOffset(50, y);
+                Y -= i * 15;
+                contentStream.newLineAtOffset(X, Y);
                 s = header[i];
                 contentStream.showText(s);
                 contentStream.endText();
             }
 
+//          ADD PERSON
             Person person = new Person("Alexander", "Sundström", 35, true );
 
             contentStream.beginText();
-            y = y -30;
-            contentStream.newLineAtOffset(50, y);
+            Y += -30;
+            contentStream.newLineAtOffset(X, Y);
             contentStream.setFont(bold, 12);
             contentStream.showText("Name: ");
             contentStream.setFont(plain, 12);
@@ -59,8 +68,8 @@ public class PDFController {
             contentStream.endText();
 
             contentStream.beginText();
-            y = y -15;
-            contentStream.newLineAtOffset(50, y);
+            Y += -15;
+            contentStream.newLineAtOffset(X, Y);
             contentStream.setFont(bold, 12);
             contentStream.showText("Age: ");
             contentStream.setFont(plain, 12);
@@ -68,13 +77,21 @@ public class PDFController {
             contentStream.endText();
 
             contentStream.beginText();
-            y = y -15;
-            contentStream.newLineAtOffset(50, y);
+            Y += -15;
+            contentStream.newLineAtOffset(X, Y);
             contentStream.setFont(bold, 12);
             contentStream.showText("Married: ");
             contentStream.setFont(plain, 12);
             contentStream.showText(String.valueOf(person.isMarried()));
             contentStream.endText();
+
+//          ADD IMAGE
+            Y += -15;
+
+            int  height = 150;
+            int  width = 250;
+            PDImageXObject image = PDImageXObject.createFromFile("src/images/test.png", document);
+            contentStream.drawImage(image, X, Y - height, width, height);
 
             contentStream.close();
             HttpHeaders headers = new HttpHeaders();
