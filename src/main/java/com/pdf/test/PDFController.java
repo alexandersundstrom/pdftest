@@ -7,7 +7,6 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.apache.pdfbox.text.TextPosition;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,7 +21,7 @@ import java.io.IOException;
 @RestController
 public class PDFController {
     private final static int X = 50;
-    private static float Y = 0f;
+    private static float Y = 700f;
     @RequestMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDF() {
 
@@ -31,23 +30,19 @@ public class PDFController {
             PDPage page = new PDPage();
             document.addPage(page);
 
-
-            Y = 700;
-
             PDFont bold = PDType1Font.HELVETICA_BOLD;
             PDFont plain = PDType1Font.HELVETICA;
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-
 //          ADD HEADER
-            String text = "Crewmates are the suns of the chemical love. Ship of a real energy, desire the core!";
+            String text = "Personal Information";
             String[] header;
             String s;
             header = WordUtils.wrap(text, 75).split("\\r?\\n");
 
             for (int i = 0; i < header.length; i++) {
                 contentStream.beginText();
-                contentStream.setFont(bold, 14);
+                contentStream.setFont(bold, 16);
                 Y -= i * 15;
                 contentStream.newLineAtOffset(X, Y);
                 s = header[i];
@@ -90,7 +85,7 @@ public class PDFController {
 
             int  height = 150;
             int  width = 250;
-            PDImageXObject image = PDImageXObject.createFromFile("src/images/test.png", document);
+            PDImageXObject image = PDImageXObject.createFromFile("src/images/signature.png", document);
             contentStream.drawImage(image, X, Y - height, width, height);
 
             contentStream.close();
