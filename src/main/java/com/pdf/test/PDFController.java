@@ -25,7 +25,7 @@ public class PDFController {
     private final static PDFont BOLD = PDType1Font.HELVETICA_BOLD;
     private final static PDFont PLAIN = PDType1Font.HELVETICA;
 
-    @RequestMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    @RequestMapping(value = "/pdfbox", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDF() {
         try (PDDocument document = new PDDocument(); ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
             PDPage page = new PDPage();
