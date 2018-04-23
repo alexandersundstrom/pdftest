@@ -1,5 +1,6 @@
 package com.pdf.test;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -16,6 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static org.apache.commons.lang3.text.WordUtils.wrap;
+
 @RestController
 public class PDFController {
 
@@ -29,11 +32,21 @@ public class PDFController {
             PDFont font = PDType1Font.HELVETICA_BOLD;
             contentStream = new PDPageContentStream(document, page);
 
-            contentStream.beginText();
-            contentStream.setFont(font, 14);
-            contentStream.newLineAtOffset(100, 700);
-            contentStream.showText("Hello World");
-            contentStream.endText();
+            String text = "Crewmates are the suns of the chemical love. Ship of a real energy, desire the core!";
+            String[] header = null;
+            String s = null;
+
+            header = WordUtils.wrap(text, 75).split("\\r?\\n");
+
+            for (int i = 0; i < header.length; i++) {
+                contentStream.beginText();
+                contentStream.setFont(font, 14);
+                contentStream.newLineAtOffset(50,600-i*15);
+                s = header[i];
+                contentStream.showText(s);
+                contentStream.endText();
+            }
+
             contentStream.close();
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "inline; filename=example.pdf");
