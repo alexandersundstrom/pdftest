@@ -56,7 +56,7 @@ public class PDFController {
             }
 
 //          ADD PERSON
-            Person person = new Person("Alexander", "Sundström", 35, true );
+            Person person = new Person("John", "Doe", 43, true );
 
             contentStream.beginText();
             Y += -30;
