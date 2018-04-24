@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <fo:layout-master-set>
+        <fo:simple-page-master master-name="first" page-height="29.7cm" page-width="21cm" margin-top="1cm"
+                               margin-bottom="2cm" margin-left="2.5cm" margin-right="2.5cm">
+            <fo:region-body margin-top="1cm"/>
+            <fo:region-before extent="1cm"/>
+            <fo:region-after extent="1.5cm"/>
+        </fo:simple-page-master>
+    </fo:layout-master-set>
+
+    <fo:page-sequence master-reference="first">
+
+
+        <fo:flow flow-name="xsl-region-body">
+
+            <fo:block font-family="Helvetica"  font-size="22pt" text-align="center">
+                Personal Information
+            </fo:block>
+
+            <fo:block font-family="Helvetica"  font-size="12pt" margin-top="20px">
+                <fo:inline font-weight="bold"> Name: </fo:inline> @name
+            </fo:block>
+
+            <fo:block font-family="Helvetica"  font-size="12pt">
+                <fo:inline font-weight="bold">Age: </fo:inline> @age
+            </fo:block>
+
+            <fo:block font-family="Helvetica"  font-size="12pt">
+                <fo:inline font-weight="bold"> Married: </fo:inline> @married
+            </fo:block>
+
+            <fo:block font-family="Helvetica"  font-size="12pt">
+                <fo:inline font-weight="bold">Extra: </fo:inline> @extra
+            </fo:block>
+
+            <fo:block font-family="Helvetica"  font-size="16pt" margin-top="30px">
+                <fo:inline font-weight="bold">Signature</fo:inline>
+            </fo:block>
+
+            <fo:block>
+                <fo:external-graphic content-height="60px" src="url(../images/signature.png)"/>
+            </fo:block>
+
+        </fo:flow>
+    </fo:page-sequence>
+</fo:root>

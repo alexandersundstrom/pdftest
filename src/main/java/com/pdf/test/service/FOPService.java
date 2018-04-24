@@ -1,8 +1,10 @@
 package com.pdf.test.service;
 
+import com.pdf.test.model.Person;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.xml.transform.Result;
@@ -11,33 +13,34 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class FOPService {
 
-    public byte[] generatePDF() {
+    public byte[] generatePDF(Person person) {
         try (ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
 
             FopFactory fopFactory = FopFactory.newInstance(new File("src/fop/configuration.xconf"));
-            // Step 3: Construct fop with desired output format
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, ous);
 
-            // Step 4: Setup JAXP using identity transformer
             TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(); // identity transformer
+            Transformer transformer = factory.newTransformer();
 
-            // Step 5: Setup input and output for XSLT transformation
-            // Setup input stream
-            Source src = new StreamSource(new File("src/fop/fonts.fo"));
+            Map<String, String> map = new HashMap<>();
+            map.put("@name", person.getFirstName() + " " + person.getLastName());
+            map.put("@age", String.valueOf(person.getAge()));
+            map.put("@married", String.valueOf(person.isMarried()));
+            map.put("@extra", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!");
 
-            // Resulting SAX events (the generated FO) must be piped through to FOP
+
+            StringBuilder templateBuilder = readTemplate("templates/template.xml", false);
+            String xml = replaceVariables(map, templateBuilder.toString());
+            Source src = new StreamSource(new StringReader(xml));
             Result res = new SAXResult(fop.getDefaultHandler());
-
-            // Step 6: Start XSLT transformation and FOP processing
             transformer.transform(src, res);
-
 
             byte[] bytes = ous.toByteArray();
             return bytes;
@@ -46,5 +49,42 @@ public class FOPService {
             System.out.println("Something went wrong: " + e.getMessage());
         }
         return null;
+    }
+
+    private StringBuilder readTemplate(String templatePath, boolean newLine) {
+
+        ClassPathResource classPathResource = new ClassPathResource(templatePath);
+
+        InputStream inputStream = null;
+        try {
+            inputStream = classPathResource.getInputStream();
+        } catch (IOException e) {
+
+        }
+
+        StringBuilder template = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                template.append(line);
+                if (newLine) {
+                    template.append("\n");
+                }
+            }
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+        return template;
+    }
+
+    public String replaceVariables(Map<String, String> params, String template) {
+        for (Map.Entry<String, String> e : params.entrySet()) {
+            String value = e.getValue();
+            if (value == null) value = "";
+            template = template.replace(e.getKey(), value);
+        }
+        return template;
     }
 }
