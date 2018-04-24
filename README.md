@@ -2,7 +2,8 @@
 Spring Boot REST API that generates PDF using two different JAVA APIs.
 
 #### Endpoints
-/pdfbox Creating an pdf using PDF Box from Apache. Contains information for a mocked person as well as a signature image
+/pdfbox Creating an pdf using PDF Box from Apache. 
+/pdffop Creating an pdf using FOP from Apache.
 
 #### Tests
 PDFServiceTest - For PDFBox, we check that the text is present and

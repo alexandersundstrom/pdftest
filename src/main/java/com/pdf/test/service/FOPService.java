@@ -34,6 +34,7 @@ public class FOPService {
             map.put("@age", String.valueOf(person.getAge()));
             map.put("@married", String.valueOf(person.isMarried()));
             map.put("@extra", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!");
+            map.put("@signatureURL", "../images/signature.png");
 
 
             StringBuilder templateBuilder = readTemplate("templates/template.xml", false);

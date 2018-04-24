@@ -39,7 +39,7 @@
             </fo:block>
 
             <fo:block>
-                <fo:external-graphic content-height="60px" src="url(../images/signature.png)"/>
+                <fo:external-graphic content-height="60px" src="url(@signatureURL)"/>
             </fo:block>
 
         </fo:flow>
