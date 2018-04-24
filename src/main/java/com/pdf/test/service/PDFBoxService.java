@@ -22,11 +22,11 @@ public class PDFBoxService {
 
     public PDDocument getPersonalDocument(Person person) {
         try {
+            Y = 700;
             PDDocument document = new PDDocument();
             PDPage page = new PDPage();
             document.addPage(page);
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            updateY(700);
 
             addWrappedTextCentered("Personal Information", 22, BOLD, contentStream, page);
 
