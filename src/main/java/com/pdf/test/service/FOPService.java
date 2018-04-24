@@ -56,15 +56,9 @@ public class FOPService {
 
         ClassPathResource classPathResource = new ClassPathResource(templatePath);
 
-        InputStream inputStream = null;
-        try {
-            inputStream = classPathResource.getInputStream();
-        } catch (IOException e) {
-
-        }
-
         StringBuilder template = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (InputStream inputStream = classPathResource.getInputStream()) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
                 template.append(line);
@@ -72,9 +66,7 @@ public class FOPService {
                     template.append("\n");
                 }
             }
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
+        } catch (Exception e) {
 
         }
         return template;
