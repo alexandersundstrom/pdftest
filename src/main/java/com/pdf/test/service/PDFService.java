@@ -28,17 +28,15 @@ public class PDFService {
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
             updateY(700);
 
-//          ADD HEADER
             addWrappedTextCentered("Personal Information", 22, BOLD, contentStream, page);
 
-//          ADD PERSON
             updateY(-15);
             addHeaderAndWrappedText("Name: ", person.getFirstName() + " " + person.getLastName(), contentStream);
             addHeaderAndWrappedText("Age: ", String.valueOf(person.getAge()), contentStream);
             addHeaderAndWrappedText("Married: ", String.valueOf(person.isMarried()), contentStream);
             addHeaderAndWrappedText("Extra: ", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!", contentStream);
 
-//          ADD IMAGE
+
             updateY(-25);
             addWrappedText("Signature", 14, BOLD, contentStream);
             updateY(-15);
