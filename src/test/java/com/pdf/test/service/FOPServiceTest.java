@@ -9,7 +9,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PDFFOPServiceTest {
+public class FOPServiceTest {
 
     @Test
     void testTextLayout() {
