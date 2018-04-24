@@ -14,7 +14,7 @@ class PDFServiceTest {
     @Test
     void testTextLayout() {
         Person person = new Person("John", "Doe", 43, true);
-        PDFService pdfService = new PDFService();
+        PDFBoxService pdfService = new PDFBoxService();
         try (PDDocument document = pdfService.getPersonalDocument(person)) {
             PDFTextStripper pdfStripper = new PDFTextStripper();
             String text = pdfStripper.getText(document);
@@ -36,7 +36,7 @@ class PDFServiceTest {
     @Test
     void isSignatureAdded() {
         Person person = new Person("John", "Doe", 43, true);
-        PDFService pdfService = new PDFService();
+        PDFBoxService pdfService = new PDFBoxService();
         try (PDDocument document = pdfService.getPersonalDocument(person)) {
             boolean hasImage = false;
             PDPage page = document.getPage(0);

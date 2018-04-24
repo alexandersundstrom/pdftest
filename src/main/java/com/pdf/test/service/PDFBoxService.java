@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class PDFService {
+public class PDFBoxService {
 
     public final static PDFont BOLD = PDType1Font.HELVETICA_BOLD;
     public final static PDFont PLAIN = PDType1Font.HELVETICA;

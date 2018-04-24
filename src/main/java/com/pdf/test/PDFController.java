@@ -1,7 +1,7 @@
 package com.pdf.test;
 
 import com.pdf.test.model.Person;
-import com.pdf.test.service.PDFService;
+import com.pdf.test.service.PDFBoxService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream;
 public class PDFController {
 
     @Autowired
-    private PDFService pdfService;
+    private PDFBoxService pdfService;
 
     @RequestMapping(value = "/pdfbox", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDF() {
