@@ -2,8 +2,8 @@
 Spring Boot REST API that generates PDF using two different JAVA APIs.
 
 #### Endpoints
-/pdfbox Creating an pdf using PDF Box from Apache. <br>
-/pdffop Creating an pdf using FOP from Apache.
+http://localhost:8080/pdf/box Creating an pdf using PDF Box from Apache. <br>
+http://localhost:8080/pdf/fop Creating an pdf using FOP from Apache.
 
 #### Tests
 There are two tests: <br>

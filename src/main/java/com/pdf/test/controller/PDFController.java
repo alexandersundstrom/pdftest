@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @RestController
+@RequestMapping("/pdf")
 public class PDFController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class PDFController {
     @Autowired
     private FOPService fopService;
 
-    @RequestMapping(value = "/pdfbox", produces = MediaType.APPLICATION_PDF_VALUE)
+    @RequestMapping(value = "/box", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDFBox() throws IOException {
         Person person = new Person("John", "Doe", 43, true);
         ByteArrayInputStream inputStream = null;
@@ -55,7 +56,7 @@ public class PDFController {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping("/pdffop")
+    @RequestMapping("/fop")
     public ResponseEntity<InputStreamResource> getPDFop() {
         Person person = new Person("John", "Doe", 43, true);
         byte[] bytes = fopService.generatePDF(person);
