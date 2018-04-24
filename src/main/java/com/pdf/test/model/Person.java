@@ -1,4 +1,4 @@
-package com.pdf.test;
+package com.pdf.test.model;
 
 public class Person {
 
