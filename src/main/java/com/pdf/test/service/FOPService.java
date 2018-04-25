@@ -32,7 +32,7 @@ public class FOPService {
     public byte[] generatePDFBytes(Person person) {
         try (ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
 
-            FopFactory fopFactory = FopFactory.newInstance(new File("src/fop/configuration.xconf"));
+            FopFactory fopFactory = FopFactory.newInstance(new File("src/main/resources/xconf/configuration.xconf"));
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, ous);
 
             TransformerFactory factory = TransformerFactory.newInstance();
