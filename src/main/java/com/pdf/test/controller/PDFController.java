@@ -68,7 +68,7 @@ public class PDFController {
     @RequestMapping("/fop")
     public ResponseEntity<InputStreamResource> getPDFop() {
         Person person = new Person("John", "Doe", 43, true);
-        byte[] bytes = fopService.generatePDF(person);
+        byte[] bytes = fopService.generatePDFBytes(person);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=example.pdf");

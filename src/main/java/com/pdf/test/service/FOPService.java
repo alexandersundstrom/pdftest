@@ -29,7 +29,7 @@ public class FOPService {
     @Autowired
     SignatureRepository repository;
 
-    public byte[] generatePDF(Person person) {
+    public byte[] generatePDFBytes(Person person) {
         try (ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
 
             FopFactory fopFactory = FopFactory.newInstance(new File("src/fop/configuration.xconf"));

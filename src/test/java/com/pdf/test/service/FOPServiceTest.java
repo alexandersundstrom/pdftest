@@ -15,7 +15,7 @@ public class FOPServiceTest {
     void testTextLayout() {
         Person person = new Person("John", "Doe", 43, true);
         FOPService fopService = new FOPService();
-        byte[] bytes = fopService.generatePDF(person);
+        byte[] bytes = fopService.generatePDFBytes(person);
         try (PDDocument document = PDDocument.load(bytes)) {
             PDFTextStripper pdfStripper = new PDFTextStripper();
             String text = pdfStripper.getText(document);
@@ -38,7 +38,7 @@ public class FOPServiceTest {
     void isSignatureAdded() {
         Person person = new Person("John", "Doe", 43, true);
         FOPService fopService = new FOPService();
-        byte[] bytes = fopService.generatePDF(person);
+        byte[] bytes = fopService.generatePDFBytes(person);
         try (PDDocument document = PDDocument.load(bytes)) {
             boolean hasImage = false;
             PDPage page = document.getPage(0);
