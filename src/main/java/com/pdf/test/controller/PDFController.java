@@ -1,8 +1,11 @@
 package com.pdf.test.controller;
 
+import com.pdf.test.Database.SignatureRepository;
 import com.pdf.test.model.Person;
+import com.pdf.test.model.Signature;
 import com.pdf.test.service.FOPService;
 import com.pdf.test.service.PDFBoxService;
+import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -14,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/pdf")
@@ -25,6 +31,9 @@ public class PDFController {
 
     @Autowired
     private FOPService fopService;
+
+    @Autowired
+    SignatureRepository repository;
 
     @RequestMapping(value = "/box", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getPDFBox() throws IOException {
@@ -69,6 +78,26 @@ public class PDFController {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(new ByteArrayInputStream(bytes)));
+
+    }
+
+
+    @RequestMapping("/addBlob")
+    public void addBlob() {
+        byte[] fileContent = null;
+        try {
+            fileContent = FileUtils.readFileToByteArray(new File("src/images/signature.png"));
+        } catch (IOException e) {
+            System.out.println("Unable to convert file to byte array. " + e.getMessage());
+        }
+
+        try {
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(fileContent);
+            repository.save(new Signature(blob));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

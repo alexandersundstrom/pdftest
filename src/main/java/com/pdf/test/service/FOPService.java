@@ -1,10 +1,14 @@
 package com.pdf.test.service;
 
+import com.pdf.test.Database.SignatureRepository;
 import com.pdf.test.model.Person;
+import com.pdf.test.model.Signature;
+import org.apache.commons.io.FileUtils;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +19,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class FOPService {
+
+    @Autowired
+    SignatureRepository repository;
 
     public byte[] generatePDF(Person person) {
         try (ByteArrayOutputStream ous = new ByteArrayOutputStream()) {
@@ -29,14 +37,15 @@ public class FOPService {
 
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer();
+            Signature signature = repository.findById(2).get();
+            String base64Result = Base64.getEncoder().encodeToString(signature.getSignature().getBytes(1, (int) signature.getSignature().length()));
 
             Map<String, String> map = new HashMap<>();
             map.put("@name", person.getFirstName() + " " + person.getLastName());
             map.put("@age", String.valueOf(person.getAge()));
             map.put("@married", String.valueOf(person.isMarried()));
             map.put("@extra", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!");
-            map.put("@signatureURL", "../images/signature.png");
-
+            map.put("@signatureBase64", base64Result);
 
             StringBuilder templateBuilder = readTemplate("templates/template.xml", false);
             String xml = replaceVariables(map, templateBuilder.toString());
