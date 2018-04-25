@@ -1,9 +1,18 @@
 # PDF Test
-Spring Boot REST API that generates PDF using two different JAVA APIs.
+Spring Boot REST API that generates PDF using two different JAVA APIs, PDFBox And FOP.
+
+For this to work you need to have an local mysql database running, and a table called signature based on the Signature.java model
+
+For the FOP API I choosed to generate the signature from an blob in the database. In my case I have a local MYSQL database.
+
+Once that is in place and tha application is started, you can access
+http://localhost:8080/pdf/addBlob to add an entry in the database, which
+is needed for the pdf/fop endpoint.
 
 #### Endpoints
 http://localhost:8080/pdf/box Creating an pdf using PDF Box from Apache. <br>
 http://localhost:8080/pdf/fop Creating an pdf using FOP from Apache.
+
 
 #### Tests
 There are two tests: <br>

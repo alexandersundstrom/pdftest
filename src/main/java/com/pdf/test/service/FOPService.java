@@ -37,7 +37,7 @@ public class FOPService {
 
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer();
-            Signature signature = repository.findById(2).get();
+            Signature signature = repository.findAll().iterator().next();
             String base64Result = Base64.getEncoder().encodeToString(signature.getSignature().getBytes(1, (int) signature.getSignature().length()));
 
             Map<String, String> map = new HashMap<>();
