@@ -3,11 +3,9 @@ package com.pdf.test.service;
 import com.pdf.test.Database.SignatureRepository;
 import com.pdf.test.model.Person;
 import com.pdf.test.model.Signature;
-import org.apache.commons.io.FileUtils;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -47,7 +45,7 @@ public class FOPService {
             map.put("@extra", "Shields up. Boldly, modern space suits virtually lower an evasive, post-apocalyptic machine. All hands view, devastation!");
             map.put("@signatureBase64", base64Result);
 
-            StringBuilder templateBuilder = readTemplate("templates/template.xml", false);
+            StringBuilder templateBuilder = readTemplate("templates/pdf/test.xml", false);
             String xml = replaceVariables(map, templateBuilder.toString());
             Source src = new StreamSource(new StringReader(xml));
             Result res = new SAXResult(fop.getDefaultHandler());

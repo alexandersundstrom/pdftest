@@ -4,6 +4,7 @@ import com.pdf.test.Database.SignatureRepository;
 import com.pdf.test.model.Person;
 import com.pdf.test.model.Signature;
 import com.pdf.test.service.FOPService;
+import com.pdf.test.service.IXDocService;
 import com.pdf.test.service.PDFBoxService;
 import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -31,6 +32,9 @@ public class PDFController {
 
     @Autowired
     private FOPService fopService;
+
+    @Autowired
+    private IXDocService ixDocService;
 
     @Autowired
     SignatureRepository repository;
@@ -80,6 +84,23 @@ public class PDFController {
                 .body(new InputStreamResource(new ByteArrayInputStream(bytes)));
 
     }
+
+    @RequestMapping("/ixdoc")
+    public ResponseEntity<InputStreamResource> getIXDox() throws Exception {
+        Person person = new Person("John", "Doe", 43, true);
+        byte[] bytes = ixDocService.generatePDFBytes(person);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=example.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(new ByteArrayInputStream(bytes)));
+
+    }
+
 
 
     @RequestMapping("/addBlob")

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article
+        PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<article lang="">
+    <informaltable frame="all">
+        <tgroup cols="1.631578947368421"><tbody><row>
+            <entry>
+                <para>1 Sender (name, email)</para>
+            </entry>
+            <entry>
+                <para>CMR</para>
+            </entry>
+        </row>
+            <row>
+                <entry>
+                    <para>${order.content.senderName}, ${order.content.senderEmail}</para>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para/>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para>2 Receiver (name, email)</para>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para>${order.content.receiverName}, ${order.content.receiverEmail}</para>
+                </entry>
+                <entry>
+                    <para>Delivery details: </para>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para/>
+                </entry>
+                <entry>
+                    <para>${company.name}, ${company.status}</para>
+                </entry>
+            </row>
+            <row>
+                <entry namest="c1" nameend="c2">
+                    <para>3 Order details: </para>
+                </entry>
+            </row>
+            <row>
+                <entry namest="c1" nameend="c2">
+                    <informaltable frame="all">
+                        <tgroup cols="2"><tbody><row>
+                            <entry>
+                                <para>Address From:</para>
+                            </entry>
+                            <entry>
+                                <para>Address To:</para>
+                            </entry>
+                        </row>
+                            <row>
+                                <entry>
+                                    <informaltable frame="all">
+                                        <tgroup cols="2"><tbody><row>
+                                            <entry>
+                                                <para>Zip: ${order.origin.postcode}</para>
+                                            </entry>
+                                            <entry>
+                                                <para>Country: ${order.origin.country}</para>
+                                            </entry>
+                                        </row>
+                                            <row>
+                                                <entry>
+                                                    <para>City: ${order.origin.city}</para>
+                                                </entry>
+                                                <entry>
+                                                    <para>Street: ${order.origin.street}</para>
+                                                </entry>
+                                            </row></tbody></tgroup>
+                                    </informaltable>
+                                    <para/>
+                                </entry>
+                                <entry>
+                                    <informaltable frame="all">
+                                        <tgroup cols="2"><tbody><row>
+                                            <entry>
+                                                <para>Zip: ${order.destination.postcode}</para>
+                                            </entry>
+                                            <entry>
+                                                <para>Country: ${order.destination.country}</para>
+                                            </entry>
+                                        </row>
+                                            <row>
+                                                <entry>
+                                                    <para>City: ${order.destination.city}</para>
+                                                </entry>
+                                                <entry>
+                                                    <para>Street: ${order.destination.street}</para>
+                                                </entry>
+                                            </row></tbody></tgroup>
+                                    </informaltable>
+                                    <para/>
+                                </entry>
+                            </row></tbody></tgroup>
+                    </informaltable>
+                    <informaltable frame="all">
+                        <tgroup cols="2"><tbody><row>
+                            <entry>
+                                <para/>
+                            </entry>
+                            <entry>
+                                <para/>
+                            </entry>
+                        </row></tbody></tgroup>
+                    </informaltable>
+                    <para/>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para/>
+                </entry>
+                <entry>
+                    <para/>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para/>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para/>
+                </entry>
+                <entry>
+                    <para/>
+                </entry>
+            </row>
+            <row>
+                <entry>
+                    <para/>
+                </entry>
+            </row></tbody></tgroup>
+    </informaltable>
+    <para/>
+    <para/>
+    <para>        </para>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para/>
+    <para>Created by Farewell</para>
+</article>

@@ -11,7 +11,8 @@ is needed for the pdf/fop endpoint.
 
 #### Endpoints
 http://localhost:8080/pdf/box Creating an pdf using PDF Box from Apache. <br>
-http://localhost:8080/pdf/fop Creating an pdf using FOP from Apache.
+http://localhost:8080/pdf/fop Creating an pdf using FOP from Apache.<br>
+http://localhost:8080/pdf/ixdoc Creating an pdf using XDocreport
 
 
 #### Tests
@@ -38,3 +39,12 @@ FOPServiceTest is using the PDDocument to read from the byte[], that way there i
 
 ###### FOP CON
 * The intial setup took more time as templates needs to be created, and figuring out how to load them and replace placeholder.
+
+###### XDoc PRO
+
+* The freedom of using a  odt (Open Office document) template to generate the content with placeholder, makes it very flexible, and easy to setup.
+* Support for iterations of contents from lists, and images etc.
+
+###### XDoc CON
+
+* Requires some trial and error to get the right content in the pdf when adding list and images, but it's pretty straight forward 
