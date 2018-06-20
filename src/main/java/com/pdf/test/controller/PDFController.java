@@ -87,7 +87,7 @@ public class PDFController {
 
     @RequestMapping("/ixdoc")
     public ResponseEntity<InputStreamResource> getIXDox() throws Exception {
-        Person person = new Person("John", "Doe", 43, true);
+        Person person = new Person("John", "Doe", 43, true, "johndoe.jpg");
         byte[] bytes = ixDocService.generatePDFBytes(person);
 
         HttpHeaders headers = new HttpHeaders();

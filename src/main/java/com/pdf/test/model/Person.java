@@ -6,6 +6,7 @@ public class Person {
     private String lastName;
     private int age;
     private boolean married;
+    private String imagePath;
 
     public Person() {
     }
@@ -15,6 +16,14 @@ public class Person {
         this.lastName = lastName;
         this.age = age;
         this.married = married;
+    }
+
+    public Person(String firstName, String lastName, int age, boolean married, String imagePath) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.married = married;
+        this.imagePath = imagePath;
     }
 
     public String getFirstName() {
@@ -47,5 +56,13 @@ public class Person {
 
     public void setMarried(boolean married) {
         this.married = married;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
