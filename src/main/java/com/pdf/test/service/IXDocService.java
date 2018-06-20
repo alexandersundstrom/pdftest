@@ -30,6 +30,7 @@ public class IXDocService {
         IContext context = report.createContext();
         Options options = Options.getTo(ConverterTypeTo.PDF);
         context.put("person", person);
+        context.put("interests", person.getInterests());
 
         String profilePath = "src/main/resources/images/" + person.getImagePath();
 
@@ -44,6 +45,7 @@ public class IXDocService {
         metadata.addFieldAsImage("profilePicture");
         metadata.setBehaviour(NullImageBehaviour.RemoveImageTemplate);
 
+        metadata.addFieldAsList("interests");
         report.setFieldsMetadata(metadata);
 
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {

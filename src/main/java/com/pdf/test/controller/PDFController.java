@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/pdf")
@@ -87,7 +88,7 @@ public class PDFController {
 
     @RequestMapping("/ixdoc")
     public ResponseEntity<InputStreamResource> getIXDox() throws Exception {
-        Person person = new Person("John", "Doe", 43, true, "johndoe.jpg");
+        Person person = new Person("John", "Doe", 43, true, "johndoe.jpg", Arrays.asList("Music", "Running", "Family"));
         byte[] bytes = ixDocService.generatePDFBytes(person);
 
         HttpHeaders headers = new HttpHeaders();

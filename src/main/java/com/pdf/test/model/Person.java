@@ -1,5 +1,7 @@
 package com.pdf.test.model;
 
+import java.util.List;
+
 public class Person {
 
     private String firstName;
@@ -7,6 +9,7 @@ public class Person {
     private int age;
     private boolean married;
     private String imagePath;
+    private List<String> interests;
 
     public Person() {
     }
@@ -18,12 +21,13 @@ public class Person {
         this.married = married;
     }
 
-    public Person(String firstName, String lastName, int age, boolean married, String imagePath) {
+    public Person(String firstName, String lastName, int age, boolean married, String imagePath, List<String> interests) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.married = married;
         this.imagePath = imagePath;
+        this.interests = interests;
     }
 
     public String getFirstName() {
@@ -64,5 +68,13 @@ public class Person {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public List<String> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<String> interests) {
+        this.interests = interests;
     }
 }
